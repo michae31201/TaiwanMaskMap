@@ -4,7 +4,15 @@ import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 class MapContainer extends React.Component{
     state = {
         lng:121.512,
-        lat:25.04
+        lat:25.04,
+        zoom:15
+    }
+    static getDerivedStateFromProps(props,state){
+        if(props.lat !== state.lat && props.lng !== state.lng && props.lng && props.lat){
+           return {lng:props.lng,lat:props.lat,zoom:20};
+        }else{
+            return null;
+        }
     }
 
     async componentDidMount(){
@@ -24,17 +32,19 @@ class MapContainer extends React.Component{
     }
     selectStore = (props) =>{
         const storeInfo = props.info;
+        //onst [lng, lat] = props.geometry;
+        //this.setState({lng,lat});
         this.props.setStoreInfo(storeInfo);
     }
 
     render(){
-        const {lat,lng} = this.state
+        const {lat,lng,zoom} = this.state
         const stores = this.props.data;
        
         return(
             <Map
                 google={this.props.google}
-                zoom={15}
+                zoom={zoom}
                 style={{width:'100%',height:'100vh'}}
                 initialCenter={{lng:121.512, lat:25.04}}
                 center={{lat, lng}}

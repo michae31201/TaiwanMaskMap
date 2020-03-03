@@ -1,8 +1,8 @@
 .info{ 
-    height: 90%;
+    height: 91%;
     width: 25%;
     position: absolute;
-    z-index: 999;
+    z-index: 10;
     background-color: white;
     text-align: center;
     border: 1px solid;
@@ -10,14 +10,14 @@
     margin: 10px;
     box-shadow: 5px 5px grey;
     font-size: 1rem;
-    left: -30%;
-    transition: left .5s;
+    transform: translateX(-150%);
+    transition: transform .5s;
 }
 .info p{
     margin: .6rem 0;
 }
 .info.open{
-    left: 0;
+    transform: translateX(0);
 }
 
 .info-head,.info-body,.info-foot{

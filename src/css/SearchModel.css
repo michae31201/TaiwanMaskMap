@@ -3,7 +3,6 @@
     position: absolute;
     z-index: 10;
     margin: 10px;
-    height:95vh;
 }
 .search-bar{  
     background-color: white;
@@ -38,7 +37,7 @@
 }
 .result-container{
     overflow-y: auto;
-    max-height: 90%;
+    height: 75vh;
 }
 .result-title{
     height: 10%;
@@ -48,6 +47,7 @@
     color:white;
     font-weight: bolder;
     box-sizing: border-box;
+    position: relative;
 }
 .result-info{
     padding:.25rem;

@@ -5,7 +5,7 @@ import '../css/SearchModel.css';
 class SearchModel extends React.Component{
     state = {
         value:"家音",
-        searchReault:[]
+        searchResult:[]
     }
 
     inputHandler = (e) => {
@@ -19,17 +19,21 @@ class SearchModel extends React.Component{
             return store.properties.name.includes(searchStore);
         })
 
-        this.setState({searchReault:result},console.log(result));
+        this.setState({searchResult:result},console.log(result));
     }
     selectResult = (e) =>{
-        const {searchReault} = this.state
+        const {searchResult} = this.state
         const storeIndex = e.target.closest('div').dataset.index;
 
-        this.props.setCenterCoords(searchReault[storeIndex].geometry.coordinates)
-        this.props.setStoreInfo(searchReault[storeIndex].properties);
+        this.props.setCenterCoords(searchResult[storeIndex].geometry.coordinates)
+        this.props.setStoreInfo(searchResult[storeIndex].properties);
+    }
+    closeSearchResult = () =>{
+        console.log("close")
+        this.setState({searchResult:[]})
     }
     render(){
-        const {value,searchReault} = this.state;
+        const {value,searchResult} = this.state;
         return(
             <div className="search-container">
                 <div className="search-bar">
@@ -37,12 +41,15 @@ class SearchModel extends React.Component{
                     <button onClick={this.searchSubmit}>搜尋</button>
                 </div>
                 {
-                    searchReault.length?
+                    searchResult.length?
                         <div className="search-result">
-                            <div className="result-title">搜尋結果</div>
+                            <div className="result-title">
+                                搜尋結果
+                                <button className="info-close" onClick={this.closeSearchResult}>&times;</button>
+                            </div>
                             <div className="result-container" onClick={this.selectResult}>
                             {
-                                searchReault.map((store,index) => {
+                                searchResult.map((store,index) => {
                                     const {id, name, address} = store.properties
                                     return <div className="result-info" key={id} data-index={index} >
                                                 <p className="result-info-name">{name}</p>

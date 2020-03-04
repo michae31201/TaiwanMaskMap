@@ -11,7 +11,9 @@ class App extends React.Component {
       mapCenter:[121.512, 25.04],
       userCoords:[121.512, 25.04],
       zoom:15,
-      storeInfo:null
+      storeInfo:null,
+      selectedPlaceName:null,
+      showingInfoWindow:false
     }
 
     async componentDidMount(){    
@@ -27,27 +29,37 @@ class App extends React.Component {
       }
     }
 
-    setStoreInfo = (store) =>{
-      console.log(store)
-      this.setState({storeInfo:store});
+    setStoreInfo = (store,position,zoom) =>{
+      const center = position;
+      this.setState({storeInfo:store,mapCenter:center,zoom});
+      this.handleInfoWindow(store.name);
     }
     closeStoreInfo = () =>{
-      this.setState({storeInfo:null});
+      this.setState({storeInfo:null,selectedPlaceName:null,showingInfoWindow:false});
     }
-    setCenterCoords = (coords) =>{
-      this.setState({mapCenter:coords,zoom:20});
+    handleInfoWindow = (storeName) => {
+      this.setState({
+          selectedPlaceName:storeName,
+          showingInfoWindow:true
+      })
     }
-
+  
     render(){
-      const {stores, storeInfo, mapCenter, userCoords, zoom} = this.state;
-      
+      const {stores, storeInfo, mapCenter, userCoords, zoom, selectedPlaceName, showingInfoWindow} = this.state;
       return (
         <div className="App">
           {
             stores.length?
-              <MapContainer stores={stores} setStoreInfo={this.setStoreInfo} mapCenter={mapCenter} userCoords={userCoords} zoom={zoom}/>:null
+              <MapContainer stores={stores} 
+                            setStoreInfo={this.setStoreInfo} 
+                            mapCenter={mapCenter} 
+                            userCoords={userCoords} 
+                            zoom={zoom}
+                            selectedPlaceName={selectedPlaceName}
+                            showingInfoWindow={showingInfoWindow}
+                            />:null
           }
-          <SearchModel stores={stores} setStoreInfo={this.setStoreInfo} setCenterCoords={this.setCenterCoords}/>      
+          <SearchModel stores={stores} setStoreInfo={this.setStoreInfo} />      
           <StoreInfo {...storeInfo} closeStoreInfo={this.closeStoreInfo} />
         </div>
       );

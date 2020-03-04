@@ -4,7 +4,7 @@ import '../css/SearchModel.css';
 
 class SearchModel extends React.Component{
     state = {
-        value:"家音",
+        value:"", //"家音"
         searchResult:[]
     }
 
@@ -24,9 +24,9 @@ class SearchModel extends React.Component{
     selectResult = (e) =>{
         const {searchResult} = this.state
         const storeIndex = e.target.closest('div').dataset.index;
-
-        this.props.setCenterCoords(searchResult[storeIndex].geometry.coordinates)
-        this.props.setStoreInfo(searchResult[storeIndex].properties);
+        const position = searchResult[storeIndex].geometry.coordinates;
+        
+        this.props.setStoreInfo(searchResult[storeIndex].properties,position,20);
     }
     closeSearchResult = () =>{
         console.log("close")

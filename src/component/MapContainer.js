@@ -3,32 +3,9 @@ import {Map, Marker, GoogleApiWrapper} from 'google-maps-react';
 import peopleIcon from '../img/map-marker.png';
 
 class MapContainer extends React.Component{
-    state = {
-        mapCenter:[121.512, 25.04],
-        userCoords:[121.512, 25.04],
-        zoom:15
-    }
-    static getDerivedStateFromProps(props,state){
-        if(props.lat !== state.mapCenter[1] && props.lng !== state.mapCenter[0] && props.lng && props.lat){
-           const mapCenter = [props.lng,props.lat];
-           return {mapCenter,zoom:20};
-        }else{
-            return null;
-        }
-    }
-
-    async componentDidMount(){
-        if(window.navigator){
-            await navigator.geolocation.getCurrentPosition((position) => {
-                const {longitude, latitude} = position.coords; 
-                const center = [longitude,latitude];
-                this.setState({mapCenter:center,userCoords:center});
-            })
-        }
-    }
-    shouldComponentUpdate(nextProp, nextState){
+    shouldComponentUpdate(nextProps){
         console.log("should")
-        if(nextProp.data.length !== this.props.data.length || nextState.mapCenter[0] !== this.state.mapCenter[0] || nextState.mapCenter[1] !==this.state.mapCenter[1]){
+        if(nextProps.stores.length !== this.props.stores.length || nextProps.mapCenter[0] !== this.props.mapCenter[0] || nextProps.mapCenter[1] !==this.props.mapCenter[1]){
             console.log("yes")
             return true;
         }else{
@@ -44,24 +21,19 @@ class MapContainer extends React.Component{
     }
 
     render(){
-        const {mapCenter,userCoords,zoom} = this.state
-        const {google} = this.props;
-        const stores = this.props.data;
-       
+        const {mapCenter, userCoords, zoom, stores, google} = this.props;
+
         return(
             <Map
                 google={google}
                 zoom={zoom}
                 style={{width:'100%',height:'100vh'}}
-                initialCenter={{lng:121.512, lat:25.04}}
+                initialCenter={{lng:mapCenter[0], lat:mapCenter[1]}}
                 center={{lng:mapCenter[0], lat:mapCenter[1]}}
             >
             <Marker key="people" 
                     position={{lng:userCoords[0], lat:userCoords[1]}} 
-                    icon={{url:peopleIcon,scaledSize: new google.maps.Size(64,64)}}/>
-            
-               
-      
+                    icon={{url:peopleIcon,scaledSize: new google.maps.Size(64,64)}}/>           
               {
                 stores.length?
                     stores.map((store,index) => {

@@ -11,8 +11,7 @@ const StoreInfo = (props) => {
                 <button className="info-close" onClick={()=>{closeStoreInfo()}}>&times;</button>
                 <p>{name}</p>
             </div>
-            <div className="info-body">
-             
+            <div className="info-body">        
                 <p><strong>電話: </strong>{phone}</p>
                 <hr/>
                 <p><strong>地址: </strong>{address}</p>

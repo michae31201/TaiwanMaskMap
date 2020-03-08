@@ -57,6 +57,7 @@ class App extends React.Component {
                             zoom={zoom}
                             selectedPlaceName={selectedPlaceName}
                             showingInfoWindow={showingInfoWindow}
+                            closeStoreInfo={this.closeStoreInfo}
                             />:null
           }
           <SearchModel stores={stores} setStoreInfo={this.setStoreInfo} />      

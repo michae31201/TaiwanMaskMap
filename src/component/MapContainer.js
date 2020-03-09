@@ -47,6 +47,11 @@ class MapContainer extends React.Component{
         const {dist} = this.state;
 
         return(
+            <> 
+            {this.props.children}   
+            <div className="distance">
+                方圓 <input type="number" value={dist}  style={{width:"2rem"}} onChange={this.setSquareDist}/> KM
+            </div>
             <Map
                 google={google}
                 zoom={zoom}
@@ -54,10 +59,7 @@ class MapContainer extends React.Component{
                 initialCenter={{lng:mapCenter[0], lat:mapCenter[1]}}
                 center={{lng:mapCenter[0], lat:mapCenter[1]}}
             >
-            {this.props.children}   
-            <div className="distance">
-                方圓 <input type="number" value={dist}  style={{width:"2rem"}} onChange={this.setSquareDist}/> KM
-            </div>
+           
             <Marker key="people" 
                     position={{lng:userCoords[0], lat:userCoords[1]}} 
                     icon={{url:userIcon,scaledSize: new google.maps.Size(64,64)}}
@@ -90,6 +92,7 @@ class MapContainer extends React.Component{
                         </div>
             </InfoWindow>
             </Map>
+            </>
         )
     }
 }

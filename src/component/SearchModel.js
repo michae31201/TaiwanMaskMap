@@ -1,11 +1,10 @@
 import React from 'react';
 import '../css/SearchModel.css';
-
+import MaskContext from '../MaskContext';
 
 class SearchModel extends React.Component{
     state = {
         value:"", //"家音"
-       // searchResult:[]
     }
 
     inputHandler = (e) => {
@@ -16,33 +15,34 @@ class SearchModel extends React.Component{
         this.setState({value});
     }
     searchSubmit = () => {
-        const searchStore = this.state.value;
-        if(searchStore !== ""){
-            const {stores} = this.props;
+        const storeName = this.state.value;
+        if(storeName !== ""){
+            const {stores, setSearchResult} = this.context;
             let result = stores.filter((store) => {          
-                return store.properties.name.includes(searchStore);
+                return store.properties.name.includes(storeName);
             })
 
-            //this.setState({searchResult:result});
-            this.props.setSearchResult(result);
+            setSearchResult(result);
         }else{
             alert("請輸入搜尋名稱");
         }
             
     }
     selectResult = (e) =>{
-        const {searchResult} = this.state
-        const storeIndex = e.target.closest('div').dataset.index;
-        const position = this.props.searchResult[storeIndex].geometry.coordinates;
+        const {searchResult, openStoreInfo} = this.context;
+        const index = e.target.closest('div').dataset.index;
+        const position = searchResult[index].geometry.coordinates;
         
-        this.props.setStoreInfo(this.props.searchResult[storeIndex].properties,position,20);
+        openStoreInfo(searchResult[index].properties, position, 20);
     }
     closeSearchResult = () =>{
-       // this.setState({searchResult:[]})
-        this.props.setSearchResult([]);
+        const {setSearchResult} = this.context;
+        
+        setSearchResult([]);
     }
     render(){
-        const {value,searchResult} = this.state;
+        const {value} = this.state;
+        const {searchResult} = this.context;
         return(
             <div className="search-container">
                 <div className="search-bar">
@@ -50,7 +50,7 @@ class SearchModel extends React.Component{
                     <button onClick={this.searchSubmit}>搜尋</button>
                 </div>
                 {
-                    this.props.searchResult.length?
+                    searchResult.length?
                         <div className="search-result">
                             <div className="result-title">
                                 搜尋結果
@@ -58,7 +58,7 @@ class SearchModel extends React.Component{
                             </div>
                             <div className="result-container" onClick={this.selectResult}>
                             {
-                                this.props.searchResult.map((store,index) => {
+                                searchResult.map((store,index) => {
                                     const {id, name, address} = store.properties
                                     return <div className="result-info" key={id} data-index={index} >
                                                 <p className="result-info-name">{name}</p>
@@ -73,5 +73,5 @@ class SearchModel extends React.Component{
         )
     }
 }
-
+SearchModel.contextType = MaskContext;
 export default SearchModel;

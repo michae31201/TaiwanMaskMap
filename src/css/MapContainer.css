@@ -8,3 +8,6 @@
     border-radius: 5px;
     font-weight: bolder;
 }
+input[type=number]{
+     width: 2rem;
+}

@@ -8,7 +8,6 @@
     border: 1px solid;
     border-radius: 0 0 10px 10px;
     margin: 10px;
-    box-shadow: 5px 5px grey;
     font-size: 1rem;
     transform: translateX(-150%);
     transition: transform .5s;

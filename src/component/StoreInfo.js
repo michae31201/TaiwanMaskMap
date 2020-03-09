@@ -1,9 +1,12 @@
 import React from 'react';
 import getFormatTime from '../utils/getFormatTime';
+import MaskContext from '../MaskContext';
 import '../css/StoreInfo.css';
 
-const StoreInfo = (props) => { 
-    const {id, available, name, phone, address, mask_adult, mask_child, note, custom_note, updated, closeStoreInfo} = props;
+const StoreInfo = (props) => {
+    console.log( React.useContext(MaskContext))
+    const {storeInfo, closeStoreInfo} = React.useContext(MaskContext);
+    const {id, available, name, phone, address, mask_adult, mask_child, note, custom_note, updated} = storeInfo;
     const [morning,afternoon] = getFormatTime(available);
     return(
         <div className={`info ${id ? 'open':""}`}>

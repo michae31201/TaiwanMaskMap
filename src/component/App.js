@@ -8,6 +8,7 @@ import '../css/App.css';
 class App extends React.Component {
     state = {
       stores:[],
+      searchResult:[],
       mapCenter:[121.512, 25.04],
       userCoords:[121.512, 25.04],
       zoom:15,
@@ -43,25 +44,34 @@ class App extends React.Component {
           showingInfoWindow:true
       })
     }
+    setSearchResult = (stores) => {
+      this.setState({searchResult:stores,zoom:11})
+    }
+
   
     render(){
-      const {stores, storeInfo, mapCenter, userCoords, zoom, selectedPlaceName, showingInfoWindow} = this.state;
+      const {stores, searchResult, storeInfo, mapCenter, userCoords, zoom, selectedPlaceName, showingInfoWindow} = this.state;
+
       return (
         <div className="App">
           {
             stores.length?
-              <MapContainer stores={stores} 
-                            setStoreInfo={this.setStoreInfo} 
-                            mapCenter={mapCenter} 
-                            userCoords={userCoords} 
-                            zoom={zoom}
-                            selectedPlaceName={selectedPlaceName}
-                            showingInfoWindow={showingInfoWindow}
-                            closeStoreInfo={this.closeStoreInfo}
-                            />:null
+                  <MapContainer stores={stores} 
+                              searchResult={searchResult}
+                              setStoreInfo={this.setStoreInfo} 
+                              mapCenter={mapCenter} 
+                              userCoords={userCoords} 
+                              zoom={zoom}
+                              selectedPlaceName={selectedPlaceName}
+                              showingInfoWindow={showingInfoWindow}
+                              closeStoreInfo={this.closeStoreInfo}
+                              > 
+                    <SearchModel stores={stores} setStoreInfo={this.setStoreInfo} setSearchResult={this.setSearchResult}/>      
+                    <StoreInfo {...storeInfo} closeStoreInfo={this.closeStoreInfo} />
+                  </MapContainer>
+                  :<div>地圖載入中...</div>
           }
-          <SearchModel stores={stores} setStoreInfo={this.setStoreInfo} />      
-          <StoreInfo {...storeInfo} closeStoreInfo={this.closeStoreInfo} />
+         
         </div>
       );
     }

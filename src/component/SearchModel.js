@@ -9,17 +9,26 @@ class SearchModel extends React.Component{
     }
 
     inputHandler = (e) => {
+        if(e.key === "Enter"){
+            this.searchSubmit();
+        }
         const value = e.target.value;
         this.setState({value});
     }
     searchSubmit = () => {
         const searchStore = this.state.value;
-        const {stores} = this.props;
-        let result = stores.filter((store) => {          
-            return store.properties.name.includes(searchStore);
-        })
+        if(searchStore !== ""){
+            const {stores} = this.props;
+            let result = stores.filter((store) => {          
+                return store.properties.name.includes(searchStore);
+            })
 
-        this.setState({searchResult:result},console.log(result));
+            this.setState({searchResult:result});
+            this.props.setSearchResult(result);
+        }else{
+            alert("請輸入搜尋名稱");
+        }
+            
     }
     selectResult = (e) =>{
         const {searchResult} = this.state
@@ -29,15 +38,15 @@ class SearchModel extends React.Component{
         this.props.setStoreInfo(searchResult[storeIndex].properties,position,20);
     }
     closeSearchResult = () =>{
-        console.log("close")
         this.setState({searchResult:[]})
+        this.props.setSearchResult([]);
     }
     render(){
         const {value,searchResult} = this.state;
         return(
             <div className="search-container">
                 <div className="search-bar">
-                    <input type="search" value={value} onChange={this.inputHandler} placeholder="搜尋..."/>
+                    <input type="search" value={value} onChange={this.inputHandler} onKeyPress={this.inputHandler} placeholder="搜尋..."/>
                     <button onClick={this.searchSubmit}>搜尋</button>
                 </div>
                 {

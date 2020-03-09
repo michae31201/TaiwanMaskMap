@@ -1,0 +1,10 @@
+.distance{
+    position: absolute;
+    right: 60px;
+    top: 10px;
+    z-index: 5;
+    background-color: #FFFFFF;
+    padding: .5rem;
+    border-radius: 5px;
+    font-weight: bolder;
+}

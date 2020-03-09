@@ -40,6 +40,8 @@ class MapContainer extends React.Component{
     setSquareDist = (e) => {
         const dist = Number(e.target.value);
         this.setState({dist});
+        this.props.closeStoreInfo();
+        this.props.setSearchResult([]);
     }
 
     render(){

@@ -65,8 +65,9 @@ class App extends React.Component {
                               selectedPlaceName={selectedPlaceName}
                               showingInfoWindow={showingInfoWindow}
                               closeStoreInfo={this.closeStoreInfo}
+                              setSearchResult={this.setSearchResult}
                               > 
-                    <SearchModel stores={stores} setStoreInfo={this.setStoreInfo} setSearchResult={this.setSearchResult}/>      
+                    <SearchModel stores={stores} searchResult={searchResult} setStoreInfo={this.setStoreInfo} setSearchResult={this.setSearchResult}/>      
                     <StoreInfo {...storeInfo} closeStoreInfo={this.closeStoreInfo} />
                   </MapContainer>
                   :<div>地圖載入中...</div>

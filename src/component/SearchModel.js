@@ -5,7 +5,7 @@ import '../css/SearchModel.css';
 class SearchModel extends React.Component{
     state = {
         value:"", //"家音"
-        searchResult:[]
+       // searchResult:[]
     }
 
     inputHandler = (e) => {
@@ -23,7 +23,7 @@ class SearchModel extends React.Component{
                 return store.properties.name.includes(searchStore);
             })
 
-            this.setState({searchResult:result});
+            //this.setState({searchResult:result});
             this.props.setSearchResult(result);
         }else{
             alert("請輸入搜尋名稱");
@@ -33,12 +33,12 @@ class SearchModel extends React.Component{
     selectResult = (e) =>{
         const {searchResult} = this.state
         const storeIndex = e.target.closest('div').dataset.index;
-        const position = searchResult[storeIndex].geometry.coordinates;
+        const position = this.props.searchResult[storeIndex].geometry.coordinates;
         
-        this.props.setStoreInfo(searchResult[storeIndex].properties,position,20);
+        this.props.setStoreInfo(this.props.searchResult[storeIndex].properties,position,20);
     }
     closeSearchResult = () =>{
-        this.setState({searchResult:[]})
+       // this.setState({searchResult:[]})
         this.props.setSearchResult([]);
     }
     render(){
@@ -50,7 +50,7 @@ class SearchModel extends React.Component{
                     <button onClick={this.searchSubmit}>搜尋</button>
                 </div>
                 {
-                    searchResult.length?
+                    this.props.searchResult.length?
                         <div className="search-result">
                             <div className="result-title">
                                 搜尋結果
@@ -58,7 +58,7 @@ class SearchModel extends React.Component{
                             </div>
                             <div className="result-container" onClick={this.selectResult}>
                             {
-                                searchResult.map((store,index) => {
+                                this.props.searchResult.map((store,index) => {
                                     const {id, name, address} = store.properties
                                     return <div className="result-info" key={id} data-index={index} >
                                                 <p className="result-info-name">{name}</p>

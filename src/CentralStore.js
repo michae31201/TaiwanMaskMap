@@ -2,6 +2,7 @@ import React from 'react';
 import App from './component/App';
 import MaskContext from './MaskContext';
 import getMaskData from './utils/getMaskData';
+import LoadingPage from './component/LoadingPage';
 
 class CentralStore extends React.Component{
     state = {
@@ -63,7 +64,7 @@ class CentralStore extends React.Component{
                                           setSearchResult}}>
                 {
                     stores.length ? 
-                        <App/> : <div>地圖載入中...</div>
+                        <App/> : <LoadingPage/>
                 }
             </MaskContext.Provider>
           )

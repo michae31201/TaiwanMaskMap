@@ -1,6 +1,7 @@
 import React from 'react';
-import '../css/SearchModel.css';
 import MaskContext from '../MaskContext';
+import getSquareDist from '../utils/getSquareDist';
+import '../css/SearchModel.css';
 
 class SearchModel extends React.Component{
     state = {
@@ -42,7 +43,7 @@ class SearchModel extends React.Component{
     }
     render(){
         const {value} = this.state;
-        const {searchResult} = this.context;
+        const {searchResult, userCoords} = this.context;
         return(
             <div className="search-container">
                 <div className="search-bar">
@@ -58,10 +59,19 @@ class SearchModel extends React.Component{
                             </div>
                             <div className="result-container" onClick={this.selectResult}>
                             {
-                                searchResult.map((store,index) => {
+                                searchResult
+                                .sort((storeA,storeB) => {
+                                    const [aLng,aLat] = storeA.geometry.coordinates;
+                                    const [bLng,bLat] = storeB.geometry.coordinates;
+                                    
+                                    return getSquareDist(userCoords[1],userCoords[0],aLat,aLng) - getSquareDist(userCoords[1],userCoords[0],bLat,bLng);
+                                })
+                                .map((store,index) => {
                                     const {id, name, address} = store.properties
+                                    const {coordinates} = store.geometry;
                                     return <div className="result-info" key={id} data-index={index} >
                                                 <p className="result-info-name">{name}</p>
+                                                <p>{getSquareDist(userCoords[1],userCoords[0],coordinates[1],coordinates[0])} KM</p>
                                                 <p>{address}</p>
                                            </div>
                                 })

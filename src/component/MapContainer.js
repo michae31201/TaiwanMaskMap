@@ -1,8 +1,9 @@
 import React from 'react';
 import {Map, Marker, InfoWindow, GoogleApiWrapper} from 'google-maps-react';
-import '../css/MapContainer.css';
-import userIcon from '../img/map-marker.png';
 import MaskContext from '../MaskContext';
+import getSquareDist from '../utils/getSquareDist';
+import userIcon from '../img/map-marker.png';
+import '../css/MapContainer.css';
 
 class MapContainer extends React.Component{   
     state={
@@ -17,16 +18,6 @@ class MapContainer extends React.Component{
         openStoreInfo(storeInfo,position,15);
     }
 
-    calcSquareDist =  (lat1, lng1, lat2, lng2) => {
-        var radLat1 = lat1 * Math.PI / 180.0;
-        var radLat2 = lat2 * Math.PI / 180.0;
-        var a = radLat1 - radLat2;
-        var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
-        var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
-        s = s * 6378.137;
-        s = Math.round(s * 10000) / 10000;
-        return s
-    };
     setSquareDist = (e) => {
         const {setSearchResult, closeStoreInfo} = this.context;
         const distance = Number(e.target.value);
@@ -63,7 +54,7 @@ class MapContainer extends React.Component{
                             stores
                             .filter((store) => {
                                 const [lng,lat] = store.geometry.coordinates;
-                                return this.calcSquareDist(userCoords[1],userCoords[0],lat,lng) <= distance;
+                                return getSquareDist(userCoords[1],userCoords[0],lat,lng) <= distance;
                             })
                             .map((store) => {
                                 const [lng,lat] = store.geometry.coordinates;
